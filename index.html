@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Student Management FIREBASE</h1>
+            
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <input id="Namebox" type="text" placeholder="Enter student name" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Roll No</label>
+                    <input id="Rollbox" type="text" placeholder="Enter roll number" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Section</label>
+                    <input id="Secbox" type="text" placeholder="Enter section" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Gender</label>
+                    <select id="Genbox" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mt-8">
+                    <button id="Insbtn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition">INSERT</button>
+                    <button id="Selbtn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition">SELECT</button>
+                    <button id="Updbtn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-md transition">UPDATE</button>
+                    <button id="Delbtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md transition">DELETE</button>
+                </div>
+
+                <div id="message" class="hidden mt-4 p-4 rounded-md text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // [Previous JavaScript code remains exactly the same]
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import {
+            getDatabase,
+            ref,
+            set,
+            get,
+            child,
+            update,
+            remove
+        } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCFORcmk4E7fS7NHJk17L4_1wzEshOH4e0",
+            authDomain: "fire9db-90459.firebaseapp.com",
+            projectId: "fire9db-90459",
+            storageBucket: "fire9db-90459.firebasestorage.app",
+            messagingSenderId: "54133688215",
+            appId: "1:54133688215:web:820ddb8799f861219326d2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        // References
+        const namebox = document.getElementById("Namebox");
+        const rollbox = document.getElementById("Rollbox");
+        const secbox = document.getElementById("Secbox");
+        const genbox = document.getElementById("Genbox");
+        const message = document.getElementById("message");
+
+        const insBtn = document.getElementById("Insbtn");
+        const selBtn = document.getElementById("Selbtn");
+        const updBtn = document.getElementById("Updbtn");
+        const delBtn = document.getElementById("Delbtn");
+
+        // Show message function with updated styling
+        function showMessage(text, isError = false) {
+            message.textContent = text;
+            message.style.display = "block";
+            if (isError) {
+                message.className = "mt-4 p-4 rounded-md text-center bg-red-100 text-red-700";
+            } else {
+                message.className = "mt-4 p-4 rounded-md text-center bg-green-100 text-green-700";
+            }
+            setTimeout(() => {
+                message.style.display = "none";
+            }, 3000);
+        }
+
+        // All other functions remain exactly the same
+        function isValidInput() {
+            if (!namebox.value.trim() || !rollbox.value.trim() || !secbox.value.trim()) {
+                showMessage("Please fill all fields", true);
+                return false;
+            }
+            return true;
+        }
+
+        function insertData() {
+            if (!isValidInput()) return;
+
+            set(ref(db, "TheStudents/" + rollbox.value), {
+                NameOfStd: namebox.value,
+                RollNo: rollbox.value,
+                Section: secbox.value,
+                Gender: genbox.value
+            })
+            .then(() => {
+                showMessage("Data stored successfully");
+                clearInputs();
+            })
+            .catch((error) => {
+                showMessage("Error: " + error.message, true);
+            });
+        }
+
+        function selectData() {
+            if (!rollbox.value.trim()) {
+                showMessage("Please enter a Roll No to search", true);
+                return;
+            }
+
+            const dbref = ref(db);
+            get(child(dbref, "TheStudents/" + rollbox.value))
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    namebox.value = snapshot.val().NameOfStd;
+                    secbox.value = snapshot.val().Section;
+                    genbox.value = snapshot.val().Gender;
+                    showMessage("Data retrieved successfully");
+                } else {
+                    showMessage("No data found", true);
+                    clearInputs();
+                }
+            })
+            .catch((error) => {
+                showMessage("Error: " + error.message, true);
+            });
+        }
+
+        function updateData() {
+            if (!isValidInput()) return;
+
+            update(ref(db, "TheStudents/" + rollbox.value), {
+                NameOfStd: namebox.value,
+                Section: secbox.value,
+                Gender: genbox.value
+            })
+            .then(() => {
+                showMessage("Data updated successfully");
+                clearInputs();
+            })
+            .catch((error) => {
+                showMessage("Error: " + error.message, true);
+            });
+        }
+
+        function deleteData() {
+            if (!rollbox.value.trim()) {
+                showMessage("Please enter a Roll No to delete", true);
+                return;
+            }
+
+            if (confirm("Are you sure you want to delete this record?")) {
+                remove(ref(db, "TheStudents/" + rollbox.value))
+                .then(() => {
+                    showMessage("Data deleted successfully");
+                    clearInputs();
+                })
+                .catch((error) => {
+                    showMessage("Error: " + error.message, true);
+                });
+            }
+        }
+
+        function clearInputs() {
+            namebox.value = "";
+            rollbox.value = "";
+            secbox.value = "";
+            genbox.value = "Male";
+        }
+
+        // Event Listeners
+        insBtn.addEventListener('click', insertData);
+        selBtn.addEventListener('click', selectData);
+        updBtn.addEventListener('click', updateData);
+        delBtn.addEventListener('click', deleteData);
+    </script>
+</body>
+</html>
