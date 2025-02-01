@@ -3,56 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/image/My Logo.png">
     <title>Student Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8 max-w-2xl">
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Student Management FIREBASE</h1>
+<body class="bg-slate-900 min-h-screen font-['DM_Sans'] flex items-center justify-center">
+    <div class="w-96 p-6">
+        <div class="bg-slate-800/50 backdrop-blur-xl rounded-3xl shadow-2xl border border-slate-700/50">
+            <div class="bg-gradient-to-b from-slate-800 to-slate-800/0 rounded-t-3xl p-4 border-b border-slate-700/50">
+                <h1 class="text-1xl font-bold text-center text-white mb-1">Simple Student Information</h1>
+                <p class="text-center text-slate-400 text-xs">Firebase DATABASE</p>
+                <p class="text-center text-slate-400 text-xs">By: enzo.dev</p>
+            </div>
             
-            <div class="space-y-6">
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">Name</label>
-                    <input id="Namebox" type="text" placeholder="Enter student name" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                </div>
+            <div class="p-4 space-y-3">
+                <input id="Namebox" type="text" placeholder="Name" 
+                    class="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                 
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">Roll No</label>
-                    <input id="Rollbox" type="text" placeholder="Enter roll number" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                </div>
+                <input id="Rollbox" type="text" placeholder="Roll No" 
+                    class="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                 
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">Section</label>
-                    <input id="Secbox" type="text" placeholder="Enter section" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                </div>
+                <input id="Secbox" type="text" placeholder="Section" 
+                    class="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                 
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">Gender</label>
-                    <select id="Genbox" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
+                <select id="Genbox" 
+                    class="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-xl text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+
+                <div class="grid grid-cols-4 gap-2 pt-2">
+                    <button id="Insbtn" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium p-2 rounded-lg transition duration-200">
+                        Add
+                    </button>
+                    <button id="Selbtn" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium p-2 rounded-lg transition duration-200">
+                        Get
+                    </button>
+                    <button id="Updbtn" class="bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium p-2 rounded-lg transition duration-200">
+                        Edit
+                    </button>
+                    <button id="Delbtn" class="bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium p-2 rounded-lg transition duration-200">
+                        Del
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mt-8">
-                    <button id="Insbtn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition">INSERT</button>
-                    <button id="Selbtn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition">SELECT</button>
-                    <button id="Updbtn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-md transition">UPDATE</button>
-                    <button id="Delbtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md transition">DELETE</button>
-                </div>
-
-                <div id="message" class="hidden mt-4 p-4 rounded-md text-center"></div>
+                <div id="message" class="hidden text-center text-xs font-medium"></div>
             </div>
         </div>
     </div>
 
     <script type="module">
-        // [Previous JavaScript code remains exactly the same]
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
         import {
             getDatabase,
@@ -76,7 +77,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase();
 
-        // References
         const namebox = document.getElementById("Namebox");
         const rollbox = document.getElementById("Rollbox");
         const secbox = document.getElementById("Secbox");
@@ -88,21 +88,19 @@
         const updBtn = document.getElementById("Updbtn");
         const delBtn = document.getElementById("Delbtn");
 
-        // Show message function with updated styling
         function showMessage(text, isError = false) {
             message.textContent = text;
             message.style.display = "block";
             if (isError) {
-                message.className = "mt-4 p-4 rounded-md text-center bg-red-100 text-red-700";
+                message.className = "mt-3 p-2 rounded-lg text-center bg-rose-900/50 text-rose-200 text-xs font-medium";
             } else {
-                message.className = "mt-4 p-4 rounded-md text-center bg-green-100 text-green-700";
+                message.className = "mt-3 p-2 rounded-lg text-center bg-emerald-900/50 text-emerald-200 text-xs font-medium";
             }
             setTimeout(() => {
                 message.style.display = "none";
             }, 3000);
         }
 
-        // All other functions remain exactly the same
         function isValidInput() {
             if (!namebox.value.trim() || !rollbox.value.trim() || !secbox.value.trim()) {
                 showMessage("Please fill all fields", true);
@@ -195,7 +193,6 @@
             genbox.value = "Male";
         }
 
-        // Event Listeners
         insBtn.addEventListener('click', insertData);
         selBtn.addEventListener('click', selectData);
         updBtn.addEventListener('click', updateData);
