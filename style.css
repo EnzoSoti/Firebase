@@ -1,0 +1,65 @@
+body {
+    background-image: 
+        linear-gradient(to bottom, rgba(13, 13, 13, 0.85), rgba(13, 13, 13, 0.85)),
+        url('https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.mesh-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(#ffffff08 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
+.input-highlight:focus {
+    background: linear-gradient(to right, #18181b, #27272a);
+}
+
+@keyframes pulse-border {
+    0%, 100% { border-color: rgba(59, 130, 246, 0.5); }
+    50% { border-color: rgba(59, 130, 246, 0.2); }
+}
+
+.pulse {
+    animation: pulse-border 2s infinite;
+}
+
+.card-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-shine::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 50%);
+    transform: rotate(45deg);
+    pointer-events: none;
+    transition: all 0.6s;
+    opacity: 0;
+}
+
+.card-shine:hover::before {
+    opacity: 1;
+}
+
+/* Glass morphism effect */
+.glass-effect {
+    background: rgba(24, 24, 27, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
